@@ -3,8 +3,13 @@ using BookStore.Admin.Entities;
 using BookStore.Admin.Interface;
 using BookStore.Admin.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 
 namespace BookStore.Admin.Services
 {
@@ -19,7 +24,7 @@ namespace BookStore.Admin.Services
             this.adminContext = adminContext;
         }
 
-        public AdminEntity addAdmin(AdminModel model)
+        public AdminEntity Register(AdminModel model)
         {
             try
             {
@@ -37,17 +42,69 @@ namespace BookStore.Admin.Services
             }
         }
 
-        public AdminEntity AdminLogin(AdminModel model)
+        public string GenerateJwtToken(string Email, long AdminID)
         {
-            AdminEntity adminEntity = new AdminEntity();
-            adminEntity=this.adminContext.Admin.FirstOrDefault(x=>x.Email==model.Email&x.Password==model.Password);
-            if(adminEntity==null)
+            try
             {
-                return adminEntity;
+                var LoginTokenHandler = new JwtSecurityTokenHandler();
+                var LoginTokenKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.configuration[("Jwt:Key")]));
+                var LoginTokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("Email", Email.ToString()),
+                        new Claim("AdminID", AdminID.ToString()),
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials = new SigningCredentials(LoginTokenKey, SecurityAlgorithms.HmacSha256Signature),
+                };
+                var token = LoginTokenHandler.CreateToken(LoginTokenDescriptor);
+                return LoginTokenHandler.WriteToken(token);
             }
-            else
-            { 
-              return null;           
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public string AdminLogin(AdminLogin model)
+        {
+            try
+            {
+                AdminEntity adminEntity = new AdminEntity();
+                adminEntity = this.adminContext.Admin.FirstOrDefault(x => x.Email == model.Email & x.Password == model.Password);
+                if (adminEntity != null)
+                {
+                    var token = GenerateJwtToken(adminEntity.Email, adminEntity.AdminID);
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public List<AdminEntity> GetUsers()
+        {
+            try
+            {
+                var list = adminContext.Admin.ToList();
+                if(list != null)
+                {
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }catch(Exception e)
+            {
+                throw e;
             }
         }
     }

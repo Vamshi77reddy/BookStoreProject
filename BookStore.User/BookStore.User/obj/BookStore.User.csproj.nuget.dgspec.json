@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Teju Reddy\\source\\repos\\BookStore\\BookStore.User\\BookStore.User\\BookStore.User.csproj": {}
+    "C:\\Users\\Teju Reddy\\source\\repos\\BookStoreApp\\BookStore.User\\BookStore.User\\BookStore.User.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Teju Reddy\\source\\repos\\BookStore\\BookStore.User\\BookStore.User\\BookStore.User.csproj": {
+    "C:\\Users\\Teju Reddy\\source\\repos\\BookStoreApp\\BookStore.User\\BookStore.User\\BookStore.User.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Teju Reddy\\source\\repos\\BookStore\\BookStore.User\\BookStore.User\\BookStore.User.csproj",
+        "projectUniqueName": "C:\\Users\\Teju Reddy\\source\\repos\\BookStoreApp\\BookStore.User\\BookStore.User\\BookStore.User.csproj",
         "projectName": "BookStore.User",
-        "projectPath": "C:\\Users\\Teju Reddy\\source\\repos\\BookStore\\BookStore.User\\BookStore.User\\BookStore.User.csproj",
+        "projectPath": "C:\\Users\\Teju Reddy\\source\\repos\\BookStoreApp\\BookStore.User\\BookStore.User\\BookStore.User.csproj",
         "packagesPath": "C:\\Users\\Teju Reddy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Teju Reddy\\source\\repos\\BookStore\\BookStore.User\\BookStore.User\\obj\\",
+        "outputPath": "C:\\Users\\Teju Reddy\\source\\repos\\BookStoreApp\\BookStore.User\\BookStore.User\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Teju Reddy\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,24 +40,6 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "dependencies": {
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[3.1.0, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[3.1.0, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[3.1.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
