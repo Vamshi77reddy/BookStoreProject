@@ -89,23 +89,6 @@ namespace BookStore.Admin.Services
         }
 
 
-        public List<AdminEntity> GetUsers()
-        {
-            try
-            {
-                var list = adminContext.Admin.ToList();
-                if(list != null)
-                {
-                    return list;
-                }
-                else
-                {
-                    return null;
-                }
-            }catch(Exception e)
-            {
-                throw e;
-            }
-        }
+        
     }
 }

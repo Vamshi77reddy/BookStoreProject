@@ -28,11 +28,11 @@ namespace BookStore.Admin.Controllers
                 var result = iadmin.Register(admin);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "User Registration Successful", data = result });
+                    return Ok(new { success = true, message = "Admin Registration Successful", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "User Registration UnSuccessful", data = result });
+                    return BadRequest(new { success = false, message = "Admin Registration UnSuccessful", data = result });
                 }
             }catch (Exception ex) 
             {
@@ -49,11 +49,11 @@ namespace BookStore.Admin.Controllers
                 var result = iadmin.AdminLogin(adminLogin);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "User Login Successful", data = result });
+                    return Ok(new { success = true, message = "Admin Login Successful", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, Message = "User Login unsuccessful", data = result });
+                    return BadRequest(new { success = false, Message = "Admin Login unsuccessful", data = result });
                 }
             }catch(Exception ex)
             {
@@ -61,22 +61,6 @@ namespace BookStore.Admin.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Get users")]
-
-        public IActionResult getAllusers()
-        {
-            var result=iadmin.GetUsers();
-            if (result != null)
-            {
-                return Ok(new { success = true, message = "Getting all Admin", data = result });
-
-            }
-            else
-            {
-                return BadRequest(new { success = false, Message = " unsuccessful", data = result });
-
-            }
-        }
+      
     }
 }

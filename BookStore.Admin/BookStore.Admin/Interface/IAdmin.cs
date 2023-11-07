@@ -9,7 +9,6 @@ namespace BookStore.Admin.Interface
         public AdminEntity Register(AdminModel model);
 
         public string AdminLogin(AdminLogin model);
-        public List<AdminEntity> GetUsers();
 
 
     }
