@@ -54,6 +54,7 @@ namespace BookStore.Admin.Services
                     {
                         new Claim("Email", Email.ToString()),
                         new Claim("AdminID", AdminID.ToString()),
+                        new Claim(ClaimTypes.Role, "Admin")
                     }),
                     Expires = DateTime.UtcNow.AddHours(1),
                     SigningCredentials = new SigningCredentials(LoginTokenKey, SecurityAlgorithms.HmacSha256Signature),
@@ -62,8 +63,8 @@ namespace BookStore.Admin.Services
                 return LoginTokenHandler.WriteToken(token);
             }
             catch (Exception e)
-            {
-                throw e;
+            {           
+                throw e; 
             }
         }
 
@@ -87,8 +88,6 @@ namespace BookStore.Admin.Services
                 throw e;
             }
         }
-
-
         
     }
 }

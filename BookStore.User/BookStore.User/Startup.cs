@@ -38,7 +38,6 @@ namespace BookStore.User
 
             services.AddDbContext<UserContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:BookStoreUserDb"]));
 
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -52,6 +51,7 @@ namespace BookStore.User
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
+
             services.AddSwaggerGen();
             // SWAGGER SERVICES IMPLEMENTATION:-
             services.AddSwaggerGen(c =>

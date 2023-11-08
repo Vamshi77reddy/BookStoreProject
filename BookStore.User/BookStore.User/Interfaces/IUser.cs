@@ -7,7 +7,7 @@ namespace BookStore.User.Interfaces
     public interface IUser
     {
         public UserEntity Registation(UserModel model);
-        public UserEntity Login(UserLoginModel loginModel);
+        public string Login(UserLoginModel loginModel);
 
 
     }

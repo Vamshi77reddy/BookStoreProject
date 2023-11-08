@@ -3,9 +3,13 @@ using BookStore.User.Interface;
 using BookStore.User.Interfaces;
 using BookStore.User.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 
 namespace BookStore.User.Services
 {
@@ -41,12 +45,40 @@ namespace BookStore.User.Services
 
         }
 
-       public UserEntity Login(UserLoginModel loginModel)
+
+        public string GenerateJwtToken(string Email, long UserID)
         {
-            var result=context.Users.FirstOrDefault(x=>x.Email== loginModel.Email&&x.Password==loginModel.Password);
-            if (result != null)
+            try
             {
-               return result;
+                var LoginTokenHandler = new JwtSecurityTokenHandler();
+                var LoginTokenKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.configuration[("Jwt:Key")]));
+                var LoginTokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("Email", Email.ToString()),
+                        new Claim("UserID", UserID.ToString()),
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials = new SigningCredentials(LoginTokenKey, SecurityAlgorithms.HmacSha256Signature),
+                };
+                var token = LoginTokenHandler.CreateToken(LoginTokenDescriptor);
+                return LoginTokenHandler.WriteToken(token);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public string Login(UserLoginModel loginModel)
+        {
+            UserEntity userEntity=new UserEntity();
+            userEntity = context.Users.FirstOrDefault(x=>x.Email== loginModel.Email&&x.Password==loginModel.Password);
+            if (userEntity != null)
+            {
+                var token = GenerateJwtToken(userEntity.Email, userEntity.UserID);
+               return token;
             }
             else
             {
