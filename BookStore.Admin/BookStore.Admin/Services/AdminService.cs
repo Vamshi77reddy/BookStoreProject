@@ -42,31 +42,48 @@ namespace BookStore.Admin.Services
             }
         }
 
+        //public string GenerateJwtToken(string Email, long AdminID)
+        //{ 
+        //    try
+        //    {
+        //        var LoginTokenHandler = new JwtSecurityTokenHandler();
+        //        var LoginTokenKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.configuration[("Jwt:Key")]));
+        //        var LoginTokenDescriptor = new SecurityTokenDescriptor
+        //        {
+        //            Subject = new ClaimsIdentity(new Claim[]
+        //            {
+        //                new Claim("Email", Email.ToString()),
+        //                new Claim("AdminID", AdminID.ToString()),
+        //                new Claim(ClaimTypes.Role, "Admin")
+        //            }),
+        //            Expires = DateTime.UtcNow.AddHours(1),
+        //            SigningCredentials = new SigningCredentials(LoginTokenKey, SecurityAlgorithms.HmacSha256Signature),
+        //        };
+        //        var token = LoginTokenHandler.CreateToken(LoginTokenDescriptor);
+        //        return LoginTokenHandler.WriteToken(token);
+        //    }
+        //    catch (Exception e)
+        //    {           
+        //        throw e; 
+        //    }
+        //}
+
         public string GenerateJwtToken(string Email, long AdminID)
         {
-            try
+            var claims = new List<Claim>
             {
-                var LoginTokenHandler = new JwtSecurityTokenHandler();
-                var LoginTokenKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.configuration[("Jwt:Key")]));
-                var LoginTokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("Email", Email.ToString()),
-                        new Claim("AdminID", AdminID.ToString()),
-                        new Claim(ClaimTypes.Role, "Admin")
-                    }),
-                    Expires = DateTime.UtcNow.AddHours(1),
-                    SigningCredentials = new SigningCredentials(LoginTokenKey, SecurityAlgorithms.HmacSha256Signature),
-                };
-                var token = LoginTokenHandler.CreateToken(LoginTokenDescriptor);
-                return LoginTokenHandler.WriteToken(token);
-            }
-            catch (Exception e)
-            {           
-                throw e; 
-            }
+                new Claim("AdminID", AdminID.ToString()),
+                new Claim(ClaimTypes.Email, Email),
+                new Claim(ClaimTypes.Role,"Admin")
+        };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+
+            var token = new JwtSecurityToken(configuration["Jwt:Issuer"], configuration["Jwt:Audience"], claims, DateTime.Now, DateTime.Now.AddHours(1), creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
 
         public string AdminLogin(AdminLogin model)
         {

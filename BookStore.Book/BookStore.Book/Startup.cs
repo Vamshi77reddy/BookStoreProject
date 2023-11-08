@@ -1,4 +1,6 @@
 using BookStore.Book.Context;
+using BookStore.Book.Interface;
+using BookStore.Book.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +29,61 @@ namespace BookStore.Book
             services.AddControllers();
 
             services.AddDbContext<BookContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:BookStoreBookDb"]));
+
+            services.AddTransient<IBook,BookService>();
+
+            //services.AddAuthentication(au =>
+            //{
+            //    au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(jwt =>
+            //{
+            //    jwt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+
+            //    };
+            //});
+
+            //        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //.AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidIssuer = Configuration["Jwt:Issuer"],
+            //        ValidAudience = Configuration["Jwt:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //    };
+            //});
+
+            //var jwtSettings = Configuration.GetSection("Jwt");
+            //var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //.AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = jwtSettings["Issuer"],
+            //        ValidAudience = jwtSettings["Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(key)
+            //    };
+            //});
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

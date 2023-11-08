@@ -23,7 +23,7 @@ namespace BookStore.Admin
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+       // This method gets called by the runtime.Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AdminContext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:BookStoreAdminDb"]));
@@ -32,22 +32,53 @@ namespace BookStore.Admin
 
             services.AddTransient<IAdmin, AdminService>();
 
-            //services.AddAuthentication(au =>
-            //{
-            //    au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(jwt =>
-            //{
-            //    jwt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            //    services.AddAuthentication(au =>
             //    {
-            //        ValidateIssuerSigningKey = true,
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false,
-            //        ValidateLifetime = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //        au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //        au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    }).AddJwtBearer(jwt =>
+            //    {
+            //        jwt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            ValidateIssuer = false,
+            //            ValidateAudience = false,
+            //            ValidateLifetime = true,
+            //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
 
+            //        };
+            //    });
+
+            //var jwtSettings = Configuration.GetSection("Jwt");
+            //var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //.AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = jwtSettings["Issuer"],
+            //        ValidAudience = jwtSettings["Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(key)
             //    };
             //});
+
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("AdminOnly", policy =>
+            //        policy.RequireRole("Admin"));
+
+
+            //});
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

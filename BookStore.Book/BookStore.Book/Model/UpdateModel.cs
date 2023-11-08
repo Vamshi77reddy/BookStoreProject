@@ -1,6 +1,6 @@
 ﻿namespace BookStore.Book.Model
 {
-    public class BookModel
+    public class UpdateModel
     {
         public string BookName { get; set; }
         public string Description { get; set; }
