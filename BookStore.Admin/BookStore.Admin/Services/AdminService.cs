@@ -2,6 +2,7 @@
 using BookStore.Admin.Entities;
 using BookStore.Admin.Interface;
 using BookStore.Admin.Models;
+using BookStore.User.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -103,7 +104,7 @@ namespace BookStore.Admin.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public string AdminLogin(AdminLogin model)
+        public LoginResponse AdminLogin(AdminLogin model)
         {
             try
             {
@@ -112,7 +113,8 @@ namespace BookStore.Admin.Services
                 if (adminEntity != null)
                 {
                     var token = GenerateJwtToken(adminEntity.Email, adminEntity.AdminID);
-                    return token;
+                    var response = new LoginResponse{ Token = token, Admin = adminEntity };
+                    return response;
                 }
                 else
                 {

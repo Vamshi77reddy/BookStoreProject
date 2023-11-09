@@ -1,5 +1,6 @@
 ﻿using BookStore.Admin.Entities;
 using BookStore.Admin.Models;
+using BookStore.User.Model;
 using System.Collections.Generic;
 
 namespace BookStore.Admin.Interface
@@ -8,7 +9,7 @@ namespace BookStore.Admin.Interface
     {
         public AdminEntity Register(AdminModel model);
 
-        public string AdminLogin(AdminLogin model);
+        public LoginResponse AdminLogin(AdminLogin model);
 
 
     }

@@ -71,14 +71,16 @@ namespace BookStore.User.Services
             }
         }
 
-        public string Login(UserLoginModel loginModel)
+        public LoginResponse Login(UserLoginModel loginModel)
         {
             UserEntity userEntity=new UserEntity();
             userEntity = context.Users.FirstOrDefault(x=>x.Email== loginModel.Email&&x.Password==loginModel.Password);
             if (userEntity != null)
             {
                 var token = GenerateJwtToken(userEntity.Email, userEntity.UserID);
-               return token;
+                var response = new LoginResponse { Token = token, User = userEntity };
+
+                return response;
             }
             else
             {
@@ -87,9 +89,9 @@ namespace BookStore.User.Services
 
         } 
 
-        public UserEntity GetUserbyId(long userId)
+        public UserEntity GetUserbyId(long usedId)
         {
-            var userEntity = context.Users.FirstOrDefault(x => x.UserID == userId);
+            var userEntity = context.Users.FirstOrDefault(x => x.UserID == usedId);
             if (userEntity != null) 
             { 
                 return userEntity;
