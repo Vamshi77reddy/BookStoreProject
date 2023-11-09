@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Text;
 
 namespace BookStore.Book
@@ -49,20 +50,20 @@ namespace BookStore.Book
             //    };
             //});
 
-            //        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //.AddJwtBearer(options =>
-            //{
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidIssuer = Configuration["Jwt:Issuer"],
-            //        ValidAudience = Configuration["Jwt:Audience"],
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-            //    };
-            //});
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = Configuration["Jwt:Issuer"],
+            ValidAudience = Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+        };
+    });
 
             //var jwtSettings = Configuration.GetSection("Jwt");
             //var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
@@ -86,28 +87,28 @@ namespace BookStore.Book
             //});
 
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                };
-            });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = Configuration["Jwt:Issuer"],
+            //        ValidAudience = Configuration["Jwt:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //    };
+            //});
             services.AddSwaggerGen();
             // SWAGGER SERVICES IMPLEMENTATION:-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "BookStore App",
+                    Title = "Fundoo App",
                     Version = "v1",
-                    Description = "API's for BookStore Application",
+                    Description = "API's for Fundoo Application",
                 });
                 var securitySchema = new OpenApiSecurityScheme
                 {
@@ -127,7 +128,9 @@ namespace BookStore.Book
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                 {
-                        securitySchema, new[] { "Bearer" } }
+                       securitySchema, new[] { "Bearer" } 
+
+                    }
                 });
             });
         }
@@ -144,9 +147,10 @@ namespace BookStore.Book
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
             
-            app.UseAuthentication();
             // This middleware serves generated Swagger document as a JSON endpoint
             app.UseSwagger();
 

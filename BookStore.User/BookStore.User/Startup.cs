@@ -38,17 +38,34 @@ namespace BookStore.User
 
             services.AddDbContext<UserContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:BookStoreUserDb"]));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = Configuration["Jwt:Issuer"],
+            //        ValidAudience = Configuration["Jwt:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //    };
+            //});
+
+            services.AddAuthentication(au =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(jwt =>
+            {
+                jwt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+
                 };
             });
 
@@ -98,9 +115,11 @@ namespace BookStore.User
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
+
             app.UseAuthorization();
 
-            app.UseAuthentication();
 
             app.UseSwagger();
 

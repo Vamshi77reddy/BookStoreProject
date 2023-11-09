@@ -86,5 +86,18 @@ namespace BookStore.User.Services
             }
 
         } 
+
+        public UserEntity GetUserbyId(long userId)
+        {
+            var userEntity = context.Users.FirstOrDefault(x => x.UserID == userId);
+            if (userEntity != null) 
+            { 
+                return userEntity;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

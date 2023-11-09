@@ -25,6 +25,12 @@ namespace BookStore.Book.Services
             this.configuration = configuration;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="book"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public BookEntity AddBook(BookModel book)
         {
             try
@@ -42,72 +48,127 @@ namespace BookStore.Book.Services
                 return bookEntity;
             }catch(Exception ex)
             {
-                throw ( ex);
+               throw new Exception("Error adding the book to the database.", ex);
+
             }
 
         }
        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<BookEntity> GetBooks()
         {
-            var result=context.Book.ToList();
-            if(result.Count > 0)
+            try
             {
-                return result;
+                var result = context.Book.ToList();
+                if (result.Count > 0)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return null;
+               
+                throw new Exception("Error fetching the list of books from the database.", ex);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public BookEntity GetBookbyId(int id)
         {
-            var bookEntity = context.Book.First(x => x.BookId == id);
-            if(bookEntity != null)
+            try
             {
-                return bookEntity;
-            }
-            else
+                var bookEntity = context.Book.First(x => x.BookId == id);
+                if (bookEntity != null)
+                {
+                    return bookEntity;
+                }
+                else
+                {
+                    return null;
+                }
+            }catch (Exception ex)
             {
-                return null;
+                throw new Exception("Error fetching a book by ID from the database.", ex);
+
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="update"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public BookEntity updateBook(UpdateModel update,long id)
         {
-            var bookEntity = context.Book.First(x=>x.BookId==id);
-            if (bookEntity != null)
+            try
             {
+                var bookEntity = context.Book.First(x => x.BookId == id);
+                if (bookEntity != null)
+                {
 
-                bookEntity.BookName = update.BookName;
-                bookEntity.Description = update.Description;
-                bookEntity.Author = update.Author;
-                bookEntity.QuantityAvailable = update.QuantityAvailable;
-                bookEntity.ActualPrice = update.ActualPrice;
-                bookEntity.DiscountedPrice = update.DiscountedPrice;
-                context.SaveChanges();
-                return bookEntity;
+                    bookEntity.BookName = update.BookName;
+                    bookEntity.Description = update.Description;
+                    bookEntity.Author = update.Author;
+                    bookEntity.QuantityAvailable = update.QuantityAvailable;
+                    bookEntity.ActualPrice = update.ActualPrice;
+                    bookEntity.DiscountedPrice = update.DiscountedPrice;
+                    context.SaveChanges();
+                    return bookEntity;
 
-            }
-            else
+                }
+                else
+                {
+                    return null;
+                }
+            }catch(Exception ex)
             {
-                return null;
+                throw new Exception("Error updating the book in the database.", ex);
+
             }
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool Delete(long id)
         {
-            var result=context.Book.First(x=>x.BookId==id);
-            if (result!=null)
+            try
             {
-                 context.Book.Remove(result);
-                context.SaveChanges();
-                return true;
+                var result = context.Book.First(x => x.BookId == id);
+                if (result != null)
+                {
+                    context.Book.Remove(result);
+                    context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                return false;
+                throw new Exception("Error deleting the book from the database.", ex);
+
             }
         }
     }

@@ -8,7 +8,7 @@ namespace BookStore.User.Interfaces
     {
         public UserEntity Registation(UserModel model);
         public string Login(UserLoginModel loginModel);
-
+        public UserEntity GetUserbyId(long userId);
 
     }
 }

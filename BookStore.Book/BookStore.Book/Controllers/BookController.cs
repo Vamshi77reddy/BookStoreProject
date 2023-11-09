@@ -6,6 +6,10 @@ using System;
 
 namespace BookStore.Book.Controllers
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : Controller
@@ -16,6 +20,12 @@ namespace BookStore.Book.Controllers
         {
             this.ibook = ibook;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="book"></param>
+        /// <returns></returns>
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -41,6 +51,12 @@ namespace BookStore.Book.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// 
+
         [HttpGet]
         [Route("GetAllBooks")]
 
@@ -65,54 +81,95 @@ namespace BookStore.Book.Controllers
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetBookById")]
         public IActionResult GetBookById(int id)
         {
-            var result=ibook.GetBookbyId(id);
-            if (result != null)
+            try
             {
-                return Ok(new { success = true, message = "Get Books by id Successful", data = result });
+                var result = ibook.GetBookbyId(id);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Get Books by id Successful", data = result });
 
-            }
-            else
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Get Book by id UnSuccessful", data = result });
+
+                }
+            }catch (Exception e)
             {
-                return BadRequest(new { success = false, message = "Get Book by id UnSuccessful", data = result });
-
+                throw e;
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("UpdateBook")]
         public IActionResult UpdateBook(UpdateModel model,long id)
         {
-            var result=ibook.updateBook(model, id);
-            if (result != null)
+            try
             {
-                return Ok(new { success = true, message = " Books updated Successful", data = result });
+                var result = ibook.updateBook(model, id);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = " Books updated Successful", data = result });
 
-            }
-            else
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = " Book update UnSuccessful", data = result });
+
+                }
+            }catch( Exception e)
             {
-                return BadRequest(new { success = false, message = " Book update UnSuccessful", data = result });
-
+                throw e;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("DeleteBook")]
         public IActionResult DeleteBook(long id)
         {
-           var result=ibook.Delete(id);
-            if (result)
+            try
             {
-                return Ok(new { success = true, message = " Books Deleted Successful", data = result });
+                var result = ibook.Delete(id);
+                if (result)
+                {
+                    return Ok(new { success = true, message = " Books Deleted Successful", data = result });
 
-            }
-            else
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = " Book Delete UnSuccessful", data = result });
+
+                }
+            }catch(Exception e)
             {
-                return BadRequest(new { success = false, message = " Book Delete UnSuccessful", data = result });
-
+                throw e;
             }
         }
        

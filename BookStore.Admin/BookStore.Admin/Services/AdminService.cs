@@ -24,6 +24,12 @@ namespace BookStore.Admin.Services
             this.adminContext = adminContext;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public AdminEntity Register(AdminModel model)
         {
             try
@@ -38,7 +44,7 @@ namespace BookStore.Admin.Services
                 return adminEntity;
             }catch(Exception ex)
             {
-                throw ex;
+                throw new Exception("Error registering the admin.", ex);
             }
         }
 
@@ -68,10 +74,17 @@ namespace BookStore.Admin.Services
         //    }
         //}
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Email"></param>
+        /// <param name="AdminID"></param>
+        /// <returns></returns>
         public string GenerateJwtToken(string Email, long AdminID)
         {
             var claims = new List<Claim>
-            {
+            {                   
                 new Claim("AdminID", AdminID.ToString()),
                 new Claim(ClaimTypes.Email, Email),
                 new Claim(ClaimTypes.Role,"Admin")
@@ -84,7 +97,12 @@ namespace BookStore.Admin.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string AdminLogin(AdminLogin model)
         {
             try
@@ -100,9 +118,9 @@ namespace BookStore.Admin.Services
                 {
                     return null;
                 }
-            }catch (Exception e)
+            }catch (Exception ex)
             {
-                throw e;
+                throw new Exception("Error during admin login.", ex);
             }
         }
         

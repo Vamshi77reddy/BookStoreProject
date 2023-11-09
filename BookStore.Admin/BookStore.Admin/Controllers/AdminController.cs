@@ -19,6 +19,11 @@ namespace BookStore.Admin.Controllers
             this.iadmin = iadmin;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="admin"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Registration")]
 
@@ -41,6 +46,11 @@ namespace BookStore.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="adminLogin"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("Login")]
         public IActionResult Login(AdminLogin adminLogin)
