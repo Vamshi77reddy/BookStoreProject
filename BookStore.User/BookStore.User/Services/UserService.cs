@@ -94,6 +94,7 @@ namespace BookStore.User.Services
             var userEntity = context.Users.FirstOrDefault(x => x.UserID == usedId);
             if (userEntity != null) 
             { 
+                userEntity.Password = string.Empty;
                 return userEntity;
             }
             else

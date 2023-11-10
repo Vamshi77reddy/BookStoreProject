@@ -106,9 +106,9 @@ namespace BookStore.Book
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Fundoo App",
+                    Title = "BookStore App",
                     Version = "v1",
-                    Description = "API's for Fundoo Application",
+                    Description = "API's for BookStore Application",
                 });
                 var securitySchema = new OpenApiSecurityScheme
                 {
