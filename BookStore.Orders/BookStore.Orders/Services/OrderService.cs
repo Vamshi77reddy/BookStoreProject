@@ -4,6 +4,8 @@ using BookStore.Orders.Entity;
 using BookStore.Orders.Interface;
 using BookStore.User.Interface;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BookStore.Orders.Services
@@ -34,7 +36,7 @@ namespace BookStore.Orders.Services
             orderEntity.Book = book;
             orderEntity.User = user;
 
-            orderEntity.OrderAmount = (book.ActualPrice - book.DiscountedPrice) * quantity;
+            orderEntity.OrderAmount = (book.DiscountedPrice) * quantity;
 
             if (user.UserID != null && bookID != null && quantity != 0)
             {
@@ -44,6 +46,35 @@ namespace BookStore.Orders.Services
             }
             return null;
 
+        }
+
+        public async Task<OrderEntity> GetOrdersByOrderID(int orderID, int userID, string token)
+        {
+            OrderEntity orderEntity = orderContext.Orders.Where(x => x.OrderId == orderID && x.UserID == userID).FirstOrDefault();
+            if (orderEntity != null)
+            {
+                orderEntity.Book = await iuser.GetBookDetailsById(Convert.ToInt32(orderEntity.BookID));
+                orderEntity.User = await iuser.GetUser(token);
+
+                return orderEntity;
+            }
+            return null;
+        }
+
+
+
+
+        public bool RemoveOrder(int orderID, int userID)
+        {
+            OrderEntity orderEntity = orderContext.Orders.Where(x => x.OrderId == orderID && x.UserID == userID).FirstOrDefault();
+            if (orderEntity != null)
+            {
+                orderContext.Orders.Remove(orderEntity);
+                orderContext.SaveChanges();
+
+                return true;
+            }
+            return false;
         }
     }
 }
