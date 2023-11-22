@@ -28,7 +28,7 @@ namespace BookStore.Orders.Services
                 return book;
             }
             else
-                return null;
+            return null;
         }
 
         //public async Task<UserEntity> GetUser(string token)

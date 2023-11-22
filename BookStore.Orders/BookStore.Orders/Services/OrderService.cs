@@ -76,8 +76,6 @@ namespace BookStore.Orders.Services
                 orderEntity.IsSuccess = true;
                 paymentResponse.Message = orderEntity.url;
                 orderContext.SaveChanges();
-
-
             }
             else
             {
@@ -184,7 +182,9 @@ namespace BookStore.Orders.Services
 
                         PayUPaymentResponse payUPaymentResponse = new PayUPaymentResponse();
                         payUPaymentResponse.Message = Presponse;
-                        return payUPaymentResponse;
+                         return payUPaymentResponse;
+                       // return Redirect(paymentRequest.Surl);
+
                     }
                     else
                     {
@@ -202,7 +202,6 @@ namespace BookStore.Orders.Services
         {
             try
             {
-
                 var queryString = HttpUtility.ParseQueryString(responseContent);
 
                 var payuResponse = new PayUTransactionResponse
@@ -252,12 +251,12 @@ namespace BookStore.Orders.Services
             {
                 orderEntity.Book = await iuser.GetBookDetailsById(Convert.ToInt32(orderEntity.BookID));
                 orderEntity.User = await iuser.GetUser(token);
-                 
+        
                 return orderEntity;
             }
             return null;
         }
-
+        
 
         public bool RemoveOrder(string orderID, int userID)
         {
