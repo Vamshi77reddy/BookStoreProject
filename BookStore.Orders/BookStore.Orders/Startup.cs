@@ -35,7 +35,7 @@ namespace BookStore.Orders
         {
             services.AddControllers();
 
-            services.AddDbContext<OrderContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:BookStoreOrderDb"]));
+            services.AddDbContext<OrderContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:BookStoreOrdersDb"]));
 
             services.AddTransient<IUser,UserServices>();
 

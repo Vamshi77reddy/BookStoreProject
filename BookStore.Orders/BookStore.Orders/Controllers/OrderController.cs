@@ -69,41 +69,38 @@ namespace BookStore.Orders.Controllers
             return BadRequest("Unable to place order...");
         }
 
+       
 
         //[Authorize]
         [HttpGet]
         [Route("GetOrderBy_ID")]
-        public async Task<IActionResult> GetOrdersByOrderID(int orderID)
+        public async Task<IActionResult> GetOrdersByOrderID(string orderID)
         {
             string token = Request.Headers["Authorization"].ToString();
             token = token.Substring("Bearer ".Length);
 
             int userID = Convert.ToInt32(User.FindFirstValue("UserID"));
-
+          
             OrderEntity orderEntity = await order.GetOrdersByOrderID(orderID, userID, token);
             if (orderEntity != null)
-            {
+            { 
                 return Ok(orderEntity);
             }
             return BadRequest("Unable to get order by id...");
         }
 
 
-
-
-       // [Authorize]
+        [Authorize]
         [HttpDelete("removeOrder")]
-        public IActionResult RemoveOrder(int orderID)
+        public IActionResult RemoveOrder(string orderID)
         {
             int userID = Convert.ToInt32(User.FindFirstValue("UserID"));
             bool isRemove = order.RemoveOrder(orderID, userID);
-            if (isRemove != null)
+            if (isRemove)
             {
                 return Ok(isRemove);
             }
             return BadRequest("Unable to get order by id...");
         }
-
-
     }
 }

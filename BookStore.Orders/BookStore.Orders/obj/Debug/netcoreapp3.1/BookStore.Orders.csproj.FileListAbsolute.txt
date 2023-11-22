@@ -56,6 +56,13 @@ C:\Users\Teju Reddy\source\repos\BookStore.Orders\BookStore.Orders\bin\Debug\net
 C:\Users\Teju Reddy\source\repos\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Teju Reddy\source\repos\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Teju Reddy\source\repos\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.csproj.AssemblyReference.cache
+C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.AssemblyInfoInputs.cache
+C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.AssemblyInfo.cs
+C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.csproj.CoreCompileInputs.cache
+C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\BookStore.Orders.exe
@@ -96,13 +103,6 @@ C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.csproj.AssemblyReference.cache
-C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.AssemblyInfoInputs.cache
-C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.AssemblyInfo.cs
-C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.csproj.CoreCompileInputs.cache
-C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\BookStore.Orders.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\staticwebassets\BookStore.Orders.StaticWebAssets.Manifest.cache
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\staticwebassets\BookStore.Orders.StaticWebAssets.Pack.cache
 C:\Users\Teju Reddy\source\repos\BookStoreApp\BookStore.Orders\BookStore.Orders\obj\Debug\netcoreapp3.1\staticwebassets\msbuild.BookStore.Orders.Microsoft.AspNetCore.StaticWebAssets.props

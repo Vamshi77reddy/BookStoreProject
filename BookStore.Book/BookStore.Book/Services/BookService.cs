@@ -29,7 +29,7 @@ namespace BookStore.Book.Services
         /// 
         /// </summary>
         /// <param name="book"></param>
-        /// <returns></returns>
+        /// <returns BookEntity></returns>
         /// <exception cref="Exception"></exception>
         public BookEntity AddBook(BookModel book)
         {
@@ -57,7 +57,7 @@ namespace BookStore.Book.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
+        /// <returns List of Books></returns>
         /// <exception cref="Exception"></exception>
         public List<BookEntity> GetBooks()
         {
@@ -84,7 +84,7 @@ namespace BookStore.Book.Services
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns Returnd book By Id></returns>
         /// <exception cref="Exception"></exception>
         public BookEntity GetBookbyId(int id)
         {
@@ -111,7 +111,7 @@ namespace BookStore.Book.Services
         /// </summary>
         /// <param name="update"></param>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns updated bookEntity></returns>
         /// <exception cref="Exception"></exception>
         public BookEntity updateBook(UpdateModel update,long id)
         {
@@ -147,7 +147,7 @@ namespace BookStore.Book.Services
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns Bool></returns>
         /// <exception cref="Exception"></exception>
         public bool Delete(long id)
         {

@@ -68,6 +68,23 @@ namespace BookStore.User.Controllers
             }
 
         }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult Delete(long userId)
+        {
+            var result = user.Delete(userId);
+            if (result)
+            {
+                return Ok(new { success = true, message = "User Deleted Successfully", data = result });
+
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = "User Deleting UnSuccessful", data = result });
+
+            }
+        }
        
     }
 }

@@ -24,7 +24,11 @@ namespace BookStore.User.Services
             this.configuration = configuration;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns userEntity></returns>
         public UserEntity Registation(UserModel model)
         {
             try
@@ -33,6 +37,7 @@ namespace BookStore.User.Services
                 userEntity.FirstName = model.FirstName;
                 userEntity.LastName = model.LastName;
                 userEntity.Email = model.Email;
+                userEntity.phone = model.Phone;
                 userEntity.Password = model.Password;
                 userEntity.Address = model.Address;
                 context.Add(userEntity);
@@ -45,7 +50,12 @@ namespace BookStore.User.Services
 
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Email"></param>
+        /// <param name="UserID"></param>
+        /// <returns Token></returns>
         public string GenerateJwtToken(string Email, long UserID)
         {
             try
@@ -71,6 +81,11 @@ namespace BookStore.User.Services
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginModel"></param>
+        /// <returns response></returns>
         public LoginResponse Login(UserLoginModel loginModel)
         {
             UserEntity userEntity=new UserEntity();
@@ -89,6 +104,11 @@ namespace BookStore.User.Services
 
         } 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="usedId"></param>
+        /// <returns UserbyId></returns>
         public UserEntity GetUserbyId(long usedId)
         {
             var userEntity = context.Users.FirstOrDefault(x => x.UserID == usedId);
@@ -101,6 +121,22 @@ namespace BookStore.User.Services
             {
                 return null;
             }
+        }
+
+        public bool Delete(long id) 
+        {
+            var result = context.Users.FirstOrDefault(x => x.UserID == id);
+            if (result != null)
+            {
+                context.Users.Remove(result);
+                context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

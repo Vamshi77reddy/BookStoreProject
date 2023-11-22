@@ -29,7 +29,7 @@ namespace BookStore.Admin.Services
         /// 
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
+        /// <returns AdminEntity></returns>
         /// <exception cref="Exception"></exception>
         public AdminEntity Register(AdminModel model)
         {
@@ -81,7 +81,7 @@ namespace BookStore.Admin.Services
         /// </summary>
         /// <param name="Email"></param>
         /// <param name="AdminID"></param>
-        /// <returns></returns>
+        /// <returns Token></returns>
         public string GenerateJwtToken(string Email, long AdminID)
         {
             var claims = new List<Claim>
@@ -102,7 +102,7 @@ namespace BookStore.Admin.Services
         /// 
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
+        /// <returns LoginResponse></returns>
         /// <exception cref="Exception"></exception>
         public LoginResponse AdminLogin(AdminLogin model)
         {
