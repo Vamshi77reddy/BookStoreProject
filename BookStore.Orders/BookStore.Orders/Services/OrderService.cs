@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -53,7 +54,7 @@ namespace BookStore.Orders.Services
                 BookID = bookID,
                 Book = book,
                 User = user,
-                
+
                 OrderAmount = (book.DiscountedPrice) * quantity
 
             };
@@ -84,10 +85,13 @@ namespace BookStore.Orders.Services
 
                 orderContext.SaveChanges();
             }
+        
 
             return orderEntity;
-        }
 
+           // return orderEntity;
+        }
+       
         private string GenerateUniqueTransactionID()
         {
 
@@ -110,8 +114,8 @@ namespace BookStore.Orders.Services
                 LastName = lastName,
                 Email = email,
                 Phone = phone,
-                Surl = "https://secure.payu.in/_payment.success",
-                Furl = "https://secure.payu.in/_payment.fail",
+                Surl = "https://localhost:44300/api/Order/ParsePayUResponses",
+                Furl = "https://test-payment-middleware.payu.in/simulatorResponse",
                 MerchantKey = payuKey,
                 Hash = "",
             };
@@ -148,6 +152,7 @@ namespace BookStore.Orders.Services
                 throw new Exception("Error generating hash: " + ex.Message);
             }
         }
+       
 
         public async Task<PayUPaymentResponse> SendPaymentRequestAsync(PayUPaymentRequest paymentRequest)
         {
@@ -182,8 +187,8 @@ namespace BookStore.Orders.Services
 
                         PayUPaymentResponse payUPaymentResponse = new PayUPaymentResponse();
                         payUPaymentResponse.Message = Presponse;
-                         return payUPaymentResponse;
-                       // return Redirect(paymentRequest.Surl);
+                        return payUPaymentResponse;
+                        // return Redirect(paymentRequest.Surl);
 
                     }
                     else
@@ -198,52 +203,133 @@ namespace BookStore.Orders.Services
             }
         }
 
-        public  PayUPaymentResponse ParsePayUResponse(string responseContent)//stream responseContent  stream reader pass the steram then add read to end async method
+        
+        public PayUPaymentResponse ParsePayUResponse(PayUTransactionResponse payUTransactionResponse)
         {
             try
             {
-                var queryString = HttpUtility.ParseQueryString(responseContent);
-
-                var payuResponse = new PayUTransactionResponse
-                {
-                    Mihpayid = queryString["mihpayid"],
-                    Mode = queryString["mode"],
-                    BankCode = queryString["bankCode"],
-                    Status = queryString["status"],
-                    UnmappedStatus = queryString["unmappedStatus"],
-                    Key = queryString["key"],
-                    Error = queryString["error"],
-                    ErrorMessage = queryString["errorMessage"],
-                    BankRefNum = queryString["bankRefNum"],
-                    Txnid = queryString["txnid"],
-                    Amount = decimal.Parse(queryString["amount"]),
-                    ProductInfo = queryString["productInfo"],
-                    FirstName = queryString["firstName"],
-                    LastName = queryString["lastName"],
-                    Email = queryString["email"],
-                    Phone = queryString["phone"],
-                    Hash = queryString["hash"],
-                    PG_TYPE = queryString["PG_TYPE"]
-                };
-
-                if (payuResponse == null)
-                {
-                    return new PayUPaymentResponse { Success = false, Message = "PayU response deserialization failed." };
-                }
 
                 var paymentResponse = new PayUPaymentResponse
                 {
-                    Success = payuResponse.Status.ToLower() == "success",
-                    Message = payuResponse.ErrorMessage
+                    Success = payUTransactionResponse.Status.ToLower() == "success",
+                    Message = payUTransactionResponse.Error_Message,
                 };
 
                 return paymentResponse;
             }
+
             catch (Exception ex)
             {
                 return new PayUPaymentResponse { Success = false, Message = "Error parsing PayU response: " + ex.Message };
             }
         }
+
+        public void UpdateDatabase(PayUTransactionResponse payUTransactionResponse)
+        {
+            try
+            {
+                OrderEntity orderEntity = orderContext.Orders.FirstOrDefault(x => x.OrderId == payUTransactionResponse.Txnid);
+
+                if (orderEntity != null)
+                {
+                    orderEntity.IsSuccess= payUTransactionResponse.Status.ToLower() == "success";
+                    orderEntity.OrderId = payUTransactionResponse.Txnid;
+                    orderContext.SaveChanges();
+
+                }
+                else
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating database based on PayU response: {ex.Message}");
+            }
+        }
+
+        //public PayUPaymentResponse ParsePayUResponse(string responseContent)
+        //{
+        //    try
+        //    {
+        //        var queryString = HttpUtility.ParseQueryString(responseContent);
+
+        //        var payuResponse = new PayUTransactionResponse
+        //        {
+        //            Mihpayid = queryString["mihpayid"],
+        //            Mode = queryString["mode"],
+        //            Bankcode = queryString["bankCode"],
+        //            Status = queryString["status"],
+        //            Unmappedstatus = queryString["unmappedStatus"],
+        //            Key = queryString["key"],
+        //            Error = queryString["error"],
+        //            Error_Message = queryString["errorMessage"],
+        //            Bank_Ref_Num = queryString["bankRefNum"],
+        //            Txnid = queryString["txnid"],
+        //            Amount = queryString["amount"],
+        //            ProductInfo = queryString["productInfo"],
+        //            FirstName = queryString["firstName"],
+        //            LastName = queryString["lastName"],
+        //            Email = queryString["email"],
+        //            Phone = queryString["phone"],
+        //            Hash = queryString["hash"],
+        //            PG_TYPE = queryString["PG_TYPE"]
+        //        };
+
+        //        if (payuResponse == null)
+        //        {
+        //            return new PayUPaymentResponse { Success = false, Message = "PayU response deserialization failed." };
+        //        }
+
+        //        var paymentResponse = new PayUPaymentResponse
+        //        {
+        //            Success = payuResponse.Status.ToLower() == "success",
+        //            Message = payuResponse.Error_Message
+        //        };
+
+        //        return paymentResponse;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new PayUPaymentResponse { Success = false, Message = "Error parsing PayU response: " + ex.Message };
+        //    }
+        //}
+        //public PayUPaymentResponse ParsePayUResponse(Stream responseStream)
+        //{
+        //    try
+        //    {
+        //        if (responseStream == null || responseStream.Length == 0)
+        //        {
+        //            return new PayUPaymentResponse { Success = false, Message = "Empty PayU response stream." };
+        //        }
+
+
+
+        //        using (var reader = new StreamReader(responseStream))
+        //        using (var jsonReader = new JsonTextReader(reader))
+        //        {
+        //            var serializer = new JsonSerializer();
+        //            var payuResponse = serializer.Deserialize<PayUTransactionResponse>(jsonReader);
+
+        //            if (payuResponse == null)
+        //            {
+        //                return new PayUPaymentResponse { Success = false, Message = "PayU response deserialization failed." };
+        //            }
+
+        //            var paymentResponse = new PayUPaymentResponse
+        //            {
+        //                Success = payuResponse.Status.ToLower() == "success",
+        //                Message = payuResponse.Error_Message
+        //            };
+
+        //            return paymentResponse;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new PayUPaymentResponse { Success = false, Message = "Error parsing PayU response: " + ex.Message };
+        //    }
+        //}
+
         public async Task<OrderEntity> GetOrdersByOrderID(string orderID, int userID, string token)
         {
             OrderEntity orderEntity = orderContext.Orders.Where(x => x.OrderId == orderID && x.UserID == userID).FirstOrDefault();
@@ -251,12 +337,12 @@ namespace BookStore.Orders.Services
             {
                 orderEntity.Book = await iuser.GetBookDetailsById(Convert.ToInt32(orderEntity.BookID));
                 orderEntity.User = await iuser.GetUser(token);
-        
+
                 return orderEntity;
             }
             return null;
         }
-        
+
 
         public bool RemoveOrder(string orderID, int userID)
         {
@@ -273,3 +359,4 @@ namespace BookStore.Orders.Services
     }
 
 }
+    
