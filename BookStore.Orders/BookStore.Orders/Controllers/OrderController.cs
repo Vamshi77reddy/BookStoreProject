@@ -42,8 +42,6 @@ namespace BookStore.Orders.Controllers
             }
         }
 
-
-
         [HttpGet]
         [Route("GetUser_Details")]
         public async Task<IActionResult> GetUserDetails()
@@ -212,6 +210,47 @@ namespace BookStore.Orders.Controllers
             return BadRequest("Unable to get order by id...");
         }
 
+        [HttpGet]
+        [Route("GetSuccessOrders")]
+        public IActionResult GetSuccessOrders()
+        {
+            try
+            {
+                string token = Request.Headers["Authorization"].ToString();
+                token = token.Substring("Bearer ".Length);
+
+                int userID = Convert.ToInt32(User.FindFirstValue("UserID"));
+
+                List<OrderEntity> successfulOrders = order.Success(token, userID);
+
+                return Ok(successfulOrders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error getting successful orders: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetFailOrders")]
+        public IActionResult GetFailOrders()
+        {
+            try
+            {
+                string token = Request.Headers["Authorization"].ToString();
+                token = token.Substring("Bearer ".Length);
+
+                int userID = Convert.ToInt32(User.FindFirstValue("UserID"));
+
+                List<OrderEntity> successfulOrders = order.Failure(token, userID);
+
+                return Ok(successfulOrders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error getting successful orders: {ex.Message}");
+            }
+        }
 
         [Authorize]
         [HttpDelete("removeOrder")]
@@ -225,5 +264,8 @@ namespace BookStore.Orders.Controllers
             }
             return BadRequest("Unable to get order by id...");
         }
+
+      
+        
     }
 }

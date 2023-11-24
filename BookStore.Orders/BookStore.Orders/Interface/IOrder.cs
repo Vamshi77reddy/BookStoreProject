@@ -13,6 +13,8 @@ namespace BookStore.Orders.Interface
         public  Task<OrderEntity> GetOrdersByOrderID(string orderID, int userID, string token);
         public bool RemoveOrder(string orderID, int userID);
         public void UpdateDatabase(PayUTransactionResponse payUTransactionResponse);
+        public List<OrderEntity> Success(string token, int userID);
+        public List<OrderEntity> Failure(string token, int userID);
 
          public PayUPaymentResponse ParsePayUResponse(PayUTransactionResponse payUTransactionResponse);
 

@@ -6,6 +6,7 @@ using BookStore.Orders.Model;
 using BookStore.User.Interface;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -208,11 +209,21 @@ namespace BookStore.Orders.Services
         {
             try
             {
-
                 var paymentResponse = new PayUPaymentResponse
                 {
                     Success = payUTransactionResponse.Status.ToLower() == "success",
                     Message = payUTransactionResponse.Error_Message,
+                    FirstName = payUTransactionResponse.FirstName,
+                    LastName = payUTransactionResponse.LastName,
+                    Status = payUTransactionResponse.Status,
+                    Key = payUTransactionResponse.Key,
+                    Txnid = payUTransactionResponse.Txnid,
+                    Amount = payUTransactionResponse.Amount,
+                    Mihpayid=payUTransactionResponse.Mihpayid,
+                    ProductInfo = payUTransactionResponse.ProductInfo,
+                    Mode = payUTransactionResponse.Mode,
+                    Hash = payUTransactionResponse.Hash,
+                    Unmappedstatus = payUTransactionResponse.Unmappedstatus,
                 };
 
                 return paymentResponse;
@@ -343,6 +354,49 @@ namespace BookStore.Orders.Services
             return null;
         }
 
+        public List<OrderEntity> Success(string token, int userID)
+        {
+            try
+            {
+                List<OrderEntity> successfulOrders = orderContext.Orders
+                    .Where(x => x.IsSuccess && x.UserID == userID)
+                    .ToList();
+
+                foreach (OrderEntity orderEntity in successfulOrders)
+                {
+                    orderEntity.Book = iuser.GetBookDetailsById(Convert.ToInt32(orderEntity.BookID)).Result;
+                    orderEntity.User = iuser.GetUser(token).Result;
+                }
+
+                return successfulOrders;
+            }
+            catch (Exception ex)
+            {
+                return new List<OrderEntity>();
+            }
+        }
+
+        public List<OrderEntity> Failure(string token, int userID)
+        {
+            try
+            {
+                List<OrderEntity> successfulOrders = orderContext.Orders
+                    .Where(x => x.IsSuccess==false && x.UserID == userID)
+                    .ToList();
+
+                foreach (OrderEntity orderEntity in successfulOrders)
+                {
+                    orderEntity.Book = iuser.GetBookDetailsById(Convert.ToInt32(orderEntity.BookID)).Result;
+                    orderEntity.User = iuser.GetUser(token).Result;
+                }
+
+                return successfulOrders;
+            }
+            catch (Exception ex)
+            {
+                return new List<OrderEntity>();
+            }
+        }
 
         public bool RemoveOrder(string orderID, int userID)
         {
