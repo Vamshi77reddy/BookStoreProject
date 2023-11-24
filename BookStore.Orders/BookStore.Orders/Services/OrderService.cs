@@ -189,7 +189,6 @@ namespace BookStore.Orders.Services
                         PayUPaymentResponse payUPaymentResponse = new PayUPaymentResponse();
                         payUPaymentResponse.Message = Presponse;
                         return payUPaymentResponse;
-                        // return Redirect(paymentRequest.Surl);
 
                     }
                     else
@@ -372,29 +371,28 @@ namespace BookStore.Orders.Services
             }
             catch (Exception ex)
             {
-                return new List<OrderEntity>();
-            }
+                throw ex;            }
         }
 
         public List<OrderEntity> Failure(string token, int userID)
         {
             try
             {
-                List<OrderEntity> successfulOrders = orderContext.Orders
+                List<OrderEntity> unSuccessfulOrders = orderContext.Orders
                     .Where(x => x.IsSuccess==false && x.UserID == userID)
                     .ToList();
 
-                foreach (OrderEntity orderEntity in successfulOrders)
+                foreach (OrderEntity orderEntity in unSuccessfulOrders)
                 {
                     orderEntity.Book = iuser.GetBookDetailsById(Convert.ToInt32(orderEntity.BookID)).Result;
                     orderEntity.User = iuser.GetUser(token).Result;
                 }
 
-                return successfulOrders;
+                return unSuccessfulOrders;
             }
             catch (Exception ex)
             {
-                return new List<OrderEntity>();
+                throw ex;
             }
         }
 
