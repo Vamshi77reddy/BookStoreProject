@@ -153,7 +153,6 @@ namespace BookStore.Orders.Services
                 throw new Exception("Error generating hash: " + ex.Message);
             }
         }
-       
 
         public async Task<PayUPaymentResponse> SendPaymentRequestAsync(PayUPaymentRequest paymentRequest)
         {
@@ -243,7 +242,6 @@ namespace BookStore.Orders.Services
                 if (orderEntity != null)
                 {
                     orderEntity.IsSuccess= payUTransactionResponse.Status.ToLower() == "success";
-                    orderEntity.OrderId = payUTransactionResponse.Txnid;
                     orderContext.SaveChanges();
 
                 }
@@ -253,7 +251,7 @@ namespace BookStore.Orders.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error updating database based on PayU response: {ex.Message}");
+                throw ex;
             }
         }
 
@@ -311,8 +309,6 @@ namespace BookStore.Orders.Services
         //        {
         //            return new PayUPaymentResponse { Success = false, Message = "Empty PayU response stream." };
         //        }
-
-
 
         //        using (var reader = new StreamReader(responseStream))
         //        using (var jsonReader = new JsonTextReader(reader))
@@ -381,7 +377,6 @@ namespace BookStore.Orders.Services
                 List<OrderEntity> unSuccessfulOrders = orderContext.Orders
                     .Where(x => x.IsSuccess==false && x.UserID == userID)
                     .ToList();
-
                 foreach (OrderEntity orderEntity in unSuccessfulOrders)
                 {
                     orderEntity.Book = iuser.GetBookDetailsById(Convert.ToInt32(orderEntity.BookID)).Result;

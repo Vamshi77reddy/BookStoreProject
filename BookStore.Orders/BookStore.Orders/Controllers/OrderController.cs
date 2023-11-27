@@ -105,16 +105,7 @@ namespace BookStore.Orders.Controllers
                 using (StreamReader reader = new StreamReader(Request.Body))
                 {
                     string payUResponse = await reader.ReadToEndAsync();
-                    //var data = HttpUtility.ParseQueryString(payUResponse);
-                    //PayUTransactionResponse payUTransactionResponse = new PayUTransactionResponse();
-                    //payUTransactionResponse.Mihpayid = data["mihpayid"];
-                    //payUTransactionResponse.Status = data["status"];
-                    //payUTransactionResponse.Txnid= data["txnid"];
-                    //payUTransactionResponse.Amount = data["amount"];
-                    //payUTransactionResponse.FirstName = data["firstName"];
-                    //payUTransactionResponse.LastName = data["lastName"];
-                    //payUTransactionResponse.Email = data["email"];
-                    //payUTransactionResponse.Phone = data["phone"];
+                  
                     var queryString = HttpUtility.ParseQueryString(payUResponse);
 
                     PayUTransactionResponse payuResponse = new PayUTransactionResponse
